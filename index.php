@@ -103,9 +103,9 @@ include './common/navbar.inc.php'
                         //profilkép
                         $profilePicture = "";
                         if(file_exists("uploads/".$row["id"].".png")){
-                            $profilePicture = "<img src=\"uploads/".$row["id"].".png\" class='profilePic'>";
+                            $profilePicture = "<img src=\"uploads/".$row["id"].".jpg\" class='profilePic'>";
                         }
-                        elseif($row["nev"] == "-"){
+                        elseif(strpos($row["nev"], "-")){
                             $profilePicture = "";
                         }
                         else{
@@ -114,15 +114,14 @@ include './common/navbar.inc.php'
 
                         // saját magam
                         $nev = $row["nev"];
-                        if(isset($_SESSION["id"])) {
-                            if($row["id"] == $_SESSION["id"]) {
-                                echo "<td " . $class . "><a href='profile.php'>" . $profilePicture . "<br>" . $nev . "</a></td>";
-                            }else{
-                                echo "<td " . $class . ">". $profilePicture . "<br>" . $nev. "</td>";
-                            }
+                        $id = $_SESSION["id"] ?? NULL;
+                        if($row["id"] == $id) {
+                            echo "<td " . $class . "><a href='profile.php'>" . $profilePicture . "<br>" . $nev . "</a></td>";
+                        }else{
+                            echo "<td " . $class . ">". $profilePicture . "<br>" . $nev. "</td>";
                         }
                         if ($row["oszlop"] == 1 or $row["oszlop"] == 3) {
-                            echo "<td>" . $row[""] . "</td>";
+                            echo "<td></td>";
                         }
                         //echo $row["id"] . $row["nev"] . " " . $row["sor"] . " " . $row["oszlop"] . "<br>";
                     }
