@@ -17,17 +17,23 @@ include './common/navbar.inc.php';
             // Hová mentjük és milyen néven
             $filename = basename($_FILES["fileToUpload"]["name"]);
             $filenameArr = preg_split("/\./", $filename);
-            if (in_array($filenameArr[1], $jpegExt)) {
+            if(function_exists('mime_content_type')){
+                 if(!mime_content_type($_FILES["fileToUpload"]["tmp_name"]) == 'image/jpg'){
+                    echo "<div class='alert alert-danger'>Csak JPG fájlt lehet feltölteni</div";
+                 }
+            }
+            elseif (in_array($filenameArr[1], $jpegExt)) {
+                $valasz = "<div class='alert alert-danger'>Csak JPG fájlt lehet feltölteni</div";
+                echo $valasz;
+            }
+           
+            if(!isset($valasz)){
                 $target_file = $target_dir . $_SESSION["id"] . "." . $filenameArr[1];
-
-                //áthelyezzük az ideiglenes fájlt a végleges nevén a helyére
                 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                     echo "<div class='alert alert-success'>A fájl " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " sikeresen feltöltve.</div>";
                 } else {
                     echo "<div class='alert alert-danger'>Hiba történt</div>";
                 }
-            }else{
-                echo "<div class='alert alert-danger'>Csak JPG fájlt lehet feltölteni</div";
             }
         }
              elseif (isset($_REQUEST['action'])) {

@@ -102,7 +102,7 @@ include './common/navbar.inc.php'
                         }
                         //profilkép
                         $profilePicture = "";
-                        if(file_exists("uploads/".$row["id"].".png")){
+                        if(file_exists("uploads/".$row["id"].".jpg")){
                             $profilePicture = "<img src=\"uploads/".$row["id"].".jpg\" class='profilePic'>";
                         }
                         elseif(strpos($row["nev"], "-")){
