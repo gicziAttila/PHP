@@ -5,6 +5,8 @@ require './common/db.inc.php';
 
 $name = '';
 $jpegExt = array('jpg', 'jpeg', 'JPG', 'JPEG');
+$sql = "SELECT id, nev, sor, oszlop, isAdmin FROM Osztaly ORDER BY sor, oszlop";
+$result = $conn->query($sql);
 include './common/navbar.inc.php';
 ?>
 <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -12,6 +14,9 @@ include './common/navbar.inc.php';
         <h2 class="text-center">Fájl feltöltése</h2>
         <?php
         $target_dir = "uploads/";
+        if (isset($_GET['id'])) {
+            $_SESSION["id"] = $_GET['id'];
+        }
         // van-e feltöltött fájl
         if (isset($_FILES["fileToUpload"]["tmp_name"])) {
             // Hová mentjük és milyen néven

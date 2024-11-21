@@ -76,7 +76,7 @@ include './common/navbar.inc.php'
                 */
 
 
-                $sql = "SELECT id, nev, sor, oszlop FROM Osztaly ORDER BY sor, oszlop";
+                $sql = "SELECT id, nev, sor, oszlop, isAdmin FROM Osztaly ORDER BY sor, oszlop";
                 $result = $conn->query($sql);
 
                 $sor = NULL;
@@ -111,17 +111,28 @@ include './common/navbar.inc.php'
                         else{
                             $profilePicture = "<img src='uploads/default.jpg' class='profilePic'>";
                         }
-
-                        // saját magam
+                        //admin
                         $nev = $row["nev"];
                         $id = $_SESSION["id"] ?? NULL;
-                        if($row["id"] == $id) {
-                            echo "<td " . $class . "><a href='profile.php'>" . $profilePicture . "<br>" . $nev . "</a></td>";
+                        $isAdmin = $_SESSION["isAdmin"] ?? NULL;
+                        if (isset($isAdmin) && $isAdmin == 1) {
+                            if ($row["oszlop"] == 1 or $row["oszlop"] == 3) {
+                                echo "<td></td>";
+                            }
+                            if(strpos($row["nev"], "-")){
+                                echo "<td " . $class . ">". $profilePicture . "<br>" . $nev. "</td>";  
+                            }else{
+                                echo "<td " . $class . "><a href='profile.php?id=" . $row["id"] . "'>" . $profilePicture . "<br>" . $nev . "</a></td>";
+                            }
                         }else{
-                            echo "<td " . $class . ">". $profilePicture . "<br>" . $nev. "</td>";
-                        }
-                        if ($row["oszlop"] == 1 or $row["oszlop"] == 3) {
-                            echo "<td></td>";
+                            if($row["id"] == $id) {
+                                echo "<td " . $class . "><a href='profile.php'>" . $profilePicture . "<br>" . $nev . "</a></td>";
+                            }else{
+                                echo "<td " . $class . ">". $profilePicture . "<br>" . $nev. "</td>";
+                            }
+                            if ($row["oszlop"] == 1 or $row["oszlop"] == 3) {
+                                echo "<td></td>";
+                            }
                         }
                         //echo $row["id"] . $row["nev"] . " " . $row["sor"] . " " . $row["oszlop"] . "<br>";
                     }

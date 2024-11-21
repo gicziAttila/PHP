@@ -6,7 +6,7 @@ require './common/db.inc.php';
 $name = '';
 
 if (isset($_POST["felhasznalonev"]) and isset($_POST["jelszo"])) {
-    $sql = "SELECT id, nev, jelszo FROM osztaly WHERE felhasznalonev = \"" . $_POST["felhasznalonev"] . "\"";
+    $sql = "SELECT id, nev, jelszo, isAdmin FROM osztaly WHERE felhasznalonev = \"" . $_POST["felhasznalonev"] . "\"";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         // elkódolt jelszó összevetés
@@ -16,6 +16,7 @@ if (isset($_POST["felhasznalonev"]) and isset($_POST["jelszo"])) {
             $valasz = "Üdv ".$row["nev"]."!";
             $_SESSION["id"] = $row["id"];
             $_SESSION["nev"] = $row["nev"];
+            $_SESSION["isAdmin"] = $row["isAdmin"];
         } else {
             // rossz jelszó
             $valasz = "Hibás jelszó";
