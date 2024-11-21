@@ -116,7 +116,7 @@ include './common/navbar.inc.php'
                         $id = $_SESSION["id"] ?? NULL;
                         $isAdmin = $_SESSION["isAdmin"] ?? NULL;
                         if (isset($isAdmin) && $isAdmin == 1) {
-                            if ($row["oszlop"] == 1 or $row["oszlop"] == 3) {
+                            if ($row["oszlop"] == 2 or $row["oszlop"] == 4) {
                                 echo "<td></td>";
                             }
                             if(strpos($row["nev"], "-")){
