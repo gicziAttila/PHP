@@ -21,16 +21,12 @@ $name = '';
 //print_r($_REQUEST);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["keresett_nev"])) {
-        $nameErr = "Name is required";
-    } else {
         if (strlen($_POST["keresett_nev"]) < 2) {
             $nameErr = "Legalább legyen 2 karakter";
         } else {
             $name = $_POST["keresett_nev"];
         }
     }
-}
 /*echo "Connected successfully;*/
 
 /*

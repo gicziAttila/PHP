@@ -6,6 +6,28 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Document</title>
+    <script>
+        function showHint(str) {
+        if (str.length > 1) {
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const obj = JSON.parse(this.responseText);
+                let text = "";
+                for(let x in obj.nevek){
+                    text += "<div>" + obj.nevek[x].nev + "</div>";
+                };
+                document.getElementById("txtHint").innerHTML = text;
+            }
+          };
+          xmlhttp.open("GET", "gethint.php?q=" + str, true);
+          xmlhttp.send();
+        }
+        else{
+            document.getElementById("txtHint").innerHTML = "";
+        }
+      }
+    </script>
 </head>
 <body>
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
@@ -33,10 +55,11 @@
             }
             ?>
             <form class="d-flex" role="search" action="index.php" method="post">
-                <input class="form-control me-2" name="keresett_nev" type="text" placeholder="Keresés"
+                <input onkeyup="showHint(this.value)" class="form-control me-2" name="keresett_nev" type="text" placeholder="Keresés"
                     value="<?php echo $name ?>" aria-label="Kereses">
                 <button class="btn btn-outline-success" value="KERESES" type="submit">Search</button>
             </form>
+            <div id="txtHint"></div>
         </div>
     </div>
 </nav>
