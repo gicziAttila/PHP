@@ -42,9 +42,9 @@
                 <li class="nav-item">
                     <?php
                     if (isset($_SESSION["id"])) {
-                        echo '<a class="nav-link" href="login.php">Kilépés</a>';
+                        echo '<a class="nav-link" href="index.php?page=login">Kilépés</a>';
                     } else {
-                        echo '<a class="nav-link" href="login.php">Belépés</a>';
+                        echo '<a class="nav-link" href="index.php?page=login">Belépés</a>';
                     }
                     ?>
                 </li>

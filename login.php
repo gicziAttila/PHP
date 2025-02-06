@@ -6,8 +6,15 @@ require './common/db.inc.php';
 $name = '';
 
 if (isset($_POST["felhasznalonev"]) and isset($_POST["jelszo"])) {
-    $sql = "SELECT id, nev, jelszo, isAdmin FROM osztaly WHERE felhasznalonev = \"" . $_POST["felhasznalonev"] . "\"";
-    $result = $conn->query($sql);
+    //$sql = "SELECT id, nev, jelszo, isAdmin FROM osztaly WHERE felhasznalonev = \"" . $_POST["felhasznalonev"] . "\"";
+    //$result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT id, nev, jelszo, isAdmin FROM ".DB_PREFIX."_osztaly WHERE felhasznalonev = ?");
+    $stmt->bind_param("s", $_POST["felhasznalonev"]);
+
+
+    $result = $stmt->execute();
+    $result = $stmt->get_result();
+    
     if ($result->num_rows > 0) {
         // elkódolt jelszó összevetés
         $row = $result->fetch_assoc();

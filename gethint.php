@@ -2,9 +2,17 @@
 include './common/db.inc.php';
 
 $q = $_REQUEST["q"];
-if(strlen($q) >1){
-    $sql = "SELECT nev, id FROM osztaly WHERE nev LIKE '%".$q."%' ORDER BY nev";
-    $result = $conn->query($sql);
+$resp = array();
+if(strlen($q) >1 and preg_match('/[A-za-z-áéíóöőúüűÁÉÍÓÖŐÚÜŰ]/', $q)){
+    $param = "%" . $q . "%";
+    $stmt = $conn->prepare("SELECT id, nev FROM ".DB_PREFIX."_osztaly WHERE nev LIKE ? ORDER BY nev");
+    $stmt->bind_param("s", $param);
+
+
+    $result = $stmt->execute();
+    $result = $stmt->get_result();
+
+
     if($result->num_rows > 0){
         while($row = $result->fetch_assoc()){
            //echo "<div>".$row["nev"]."</div>";
